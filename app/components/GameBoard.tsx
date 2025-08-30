@@ -276,7 +276,7 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
              <div className="mt-3 p-2 bg-gray-800 border border-purple-600 rounded-lg">
                <p className="text-purple-400 text-xs mb-1">Share this code for live viewing:</p>
                <p className="text-purple-100 font-mono text-lg tracking-widest">{game.gameCode}</p>
-               <p className="text-purple-400 text-xs mt-1">👀 Others can watch live but can't make changes</p>
+               <p className="text-purple-400 text-xs mt-1">👀 Others can watch live but can&apos;t make changes</p>
              </div>
            )}
          </div>

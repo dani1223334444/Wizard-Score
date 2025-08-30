@@ -75,7 +75,7 @@ export default function GameCodeInput({ onJoinGame, onCancel }: GameCodeInputPro
 
         <div className="mt-6 text-center">
           <p className="text-purple-400 text-sm">
-            👀 You'll be able to watch the game live but can't make changes
+            👀 You&apos;ll be able to watch the game live but can&apos;t make changes
           </p>
         </div>
       </div>
