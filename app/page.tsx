@@ -28,6 +28,22 @@ export default function Home() {
     loadGames();
   }, []);
 
+  // Save current game to database whenever it changes
+  useEffect(() => {
+    if (currentGame) {
+      const saveCurrentGame = async () => {
+        try {
+          console.log('Saving current game to database:', currentGame.id);
+          await databaseService.saveGame(currentGame);
+        } catch (error) {
+          console.error('Error saving current game:', error);
+        }
+      };
+      
+      saveCurrentGame();
+    }
+  }, [currentGame]);
+
   // Save game history to database whenever it changes
   useEffect(() => {
     if (gameHistory.length > 0) {
