@@ -60,7 +60,8 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
 
       } catch (error) {
         console.error('Error loading live game:', error);
-        onError(`Failed to connect to game: ${error.message}`);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+        onError(`Failed to connect to game: ${errorMessage}`);
         setConnectionStatus('disconnected');
       }
     };
