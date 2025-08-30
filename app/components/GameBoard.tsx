@@ -112,31 +112,43 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
   }, [game.currentRound, game.players]);
 
   const initializeCurrentRound = () => {
-    const cardsInHand = game.currentRound <= game.totalRounds / 2 
-      ? game.currentRound 
-      : game.totalRounds - game.currentRound + 1;
+    // Check if we have a saved round for the current round number
+    const savedRound = game.rounds.find(round => round.roundNumber === game.currentRound);
+    
+    if (savedRound) {
+      // Load the saved round data
+      setCurrentRound(savedRound);
+      setBiddingPhase(false); // If round exists, we're in tricks phase
+      setRoundComplete(savedRound.isComplete);
+    } else {
+      // Create a new round
+      const cardsInHand = game.currentRound <= game.totalRounds / 2 
+        ? game.currentRound 
+        : game.totalRounds - game.currentRound + 1;
 
-    const newRound: Round = {
-      roundNumber: game.currentRound,
-      cardsInHand,
-      players: game.players.map((player, index) => ({
-        ...player,
-        tricks: 0,
-        bid: 0,
-        isDealer: index === (game.currentRound - 1) % game.players.length
-      })),
-      isComplete: false,
-      dealerIndex: (game.currentRound - 1) % game.players.length
-    };
+      const newRound: Round = {
+        roundNumber: game.currentRound,
+        cardsInHand,
+        players: game.players.map((player, index) => ({
+          ...player,
+          tricks: 0,
+          bid: 0,
+          isDealer: index === (game.currentRound - 1) % game.players.length
+        })),
+        isComplete: false,
+        dealerIndex: (game.currentRound - 1) % game.players.length
+      };
 
-         setCurrentRound(newRound);
-     setBiddingPhase(true);
-     setRoundComplete(false);
-     // Only reset bomb and cloud for 25 Year Edition
-     if (game.rules?.edition === '25year') {
-       setBombPlayed(false);
-       setCloudUsed(false);
-     }
+      setCurrentRound(newRound);
+      setBiddingPhase(true);
+      setRoundComplete(false);
+    }
+    
+    // Only reset bomb and cloud for 25 Year Edition
+    if (game.rules?.edition === '25year') {
+      setBombPlayed(false);
+      setCloudUsed(false);
+    }
   };
 
   const updatePlayerBid = (playerId: string, bid: number) => {
