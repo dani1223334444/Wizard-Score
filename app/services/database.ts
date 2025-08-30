@@ -65,7 +65,7 @@ class SupabaseService implements DatabaseService {
     console.log('Games loaded successfully from Supabase:', data?.length || 0);
     
     // Map database fields to Game interface
-    const games = (data || []).map((row: any) => ({
+    const games = (data || []).map((row: Record<string, unknown>) => ({
       id: row.id,
       name: row.name,
       players: row.players,
@@ -212,7 +212,7 @@ class LocalStorageService implements DatabaseService {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(filtered));
   }
 
-  subscribeToGame(gameId: string, callback: (game: Game) => void): () => void {
+  subscribeToGame(_gameId: string, _callback: (game: Game) => void): () => void {
     // Local storage doesn't support real-time, return empty unsubscribe function
     return () => {};
   }
