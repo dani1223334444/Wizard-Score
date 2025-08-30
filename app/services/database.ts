@@ -23,22 +23,42 @@ class SupabaseService implements DatabaseService {
   async saveGame(game: Game): Promise<void> {
     if (!supabase) throw new Error('Supabase not configured');
     
+    console.log('Attempting to save game to Supabase:', game.id);
     const { error } = await supabase
       .from('games')
-      .insert([game]);
+      .upsert({
+        id: game.id,
+        name: game.name,
+        players: game.players,
+        rounds: game.rounds,
+        current_round: game.currentRound,
+        total_rounds: game.totalRounds,
+        is_complete: game.isComplete,
+        rules: game.rules,
+        updated_at: new Date().toISOString()
+      });
     
-    if (error) throw error;
+    if (error) {
+      console.error('Supabase save error:', error);
+      throw error;
+    }
+    console.log('Game saved successfully to Supabase');
   }
 
   async loadGames(): Promise<Game[]> {
     if (!supabase) throw new Error('Supabase not configured');
     
+    console.log('Attempting to load games from Supabase');
     const { data, error } = await supabase
       .from('games')
       .select('*')
-      .order('createdAt', { ascending: false });
+      .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      console.error('Supabase load error:', error);
+      throw error;
+    }
+    console.log('Games loaded successfully from Supabase:', data?.length || 0);
     return data || [];
   }
 
