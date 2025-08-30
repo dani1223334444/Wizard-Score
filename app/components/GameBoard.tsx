@@ -319,45 +319,45 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
                  
                  {/* Center: Bid Controls */}
                  {biddingPhase ? (
-                   <div className="flex items-center gap-2">
+                   <div className="flex items-center gap-1">
                      <button
                        onClick={() => updatePlayerBid(player.id, Math.max(0, (player.bid || 0) - 1))}
-                       className="w-10 h-10 bg-gray-600 hover:bg-gray-700 rounded-full flex items-center justify-center text-white text-lg font-bold transition-colors"
+                       className="w-8 h-8 bg-gray-600 hover:bg-gray-700 rounded-full flex items-center justify-center text-white text-sm font-bold transition-colors"
                      >
                        -
                      </button>
-                     <span className="w-12 h-10 bg-gray-700 border border-purple-600 rounded flex items-center justify-center text-lg font-bold text-white">
+                     <span className="w-10 h-8 bg-gray-700 border border-purple-600 rounded flex items-center justify-center text-sm font-bold text-white">
                        {player.bid >= 0 ? player.bid : 0}
                      </span>
                      <button
                        onClick={() => updatePlayerBid(player.id, Math.min(currentRound.cardsInHand, (player.bid || 0) + 1))}
-                       className="w-10 h-10 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center text-white text-lg font-bold transition-colors"
+                       className="w-8 h-8 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center text-white text-sm font-bold transition-colors"
                      >
                        +
                      </button>
                    </div>
                  ) : (
-                   <div className="flex items-center gap-2">
+                   <div className="flex items-center gap-1">
                      <button
                        onClick={() => updatePlayerTricks(player.id, Math.max(0, (player.tricks || 0) - 1))}
-                       className="w-10 h-10 bg-gray-600 hover:bg-gray-700 rounded-full flex items-center justify-center text-white text-lg font-bold transition-colors"
+                       className="w-8 h-8 bg-gray-600 hover:bg-gray-700 rounded-full flex items-center justify-center text-white text-sm font-bold transition-colors"
                      >
                        -
                      </button>
-                     <span className="w-12 h-10 bg-gray-700 border border-purple-600 rounded flex items-center justify-center text-lg font-bold text-white">
+                     <span className="w-10 h-8 bg-gray-700 border border-purple-600 rounded flex items-center justify-center text-sm font-bold text-white">
                        {player.tricks >= 0 ? player.tricks : 0}/{player.bid >= 0 ? player.bid : 0}
                      </span>
                      <button
                        onClick={() => updatePlayerTricks(player.id, Math.min(currentRound.cardsInHand, (player.tricks || 0) + 1))}
-                       className="w-10 h-10 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center text-white text-lg font-bold transition-colors"
+                       className="w-8 h-8 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center text-white text-sm font-bold transition-colors"
                      >
                        +
                      </button>
-                     {/* 9¾ Special Function - Small cloud button per player */}
+                     {/* 9¾ Special Function - Tiny cloud button */}
                      {game.rules?.edition === '25year' && !cloudUsed && (
                        <button
                          onClick={() => openNineThreeQuarterModal(player.id)}
-                         className="w-8 h-8 bg-purple-500 hover:bg-purple-600 rounded-full flex items-center justify-center text-white text-sm transition-colors"
+                         className="w-6 h-6 bg-purple-500 hover:bg-purple-600 rounded-full flex items-center justify-center text-white text-xs transition-colors ml-1"
                          title="9¾ Special: Adjust bid by ±1"
                        >
                          ☁️
