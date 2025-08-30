@@ -7,7 +7,6 @@ import GameHistory from './components/GameHistory';
 import GameCodeInput from './components/GameCodeInput';
 import LiveGameViewer from './components/LiveGameViewer';
 import GameResults from './components/GameResults';
-import { generateSampleGame } from './components/DevHelper';
 import { Game } from './types/game';
 import { databaseService, isSupabaseAvailable } from './services/database';
 
@@ -88,11 +87,7 @@ export default function Home() {
     setView('game');
   };
 
-  const testSampleGame = () => {
-    const sampleGame = generateSampleGame();
-    setCurrentGame(sampleGame);
-    setView('results');
-  };
+
 
   const joinLiveGame = (gameCode: string) => {
     setLiveGameCode(gameCode);
@@ -170,12 +165,7 @@ export default function Home() {
                     Join Live Game
                   </button>
                 )}
-                <button
-                  onClick={testSampleGame}
-                  className="px-3 py-2 rounded-md transition-colors text-sm whitespace-nowrap bg-orange-600 hover:bg-orange-700 text-white"
-                >
-                  🧪 Test Results
-                </button>
+
               </div>
             </nav>
           </>
