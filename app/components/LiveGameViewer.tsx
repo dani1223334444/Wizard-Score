@@ -58,7 +58,7 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
           });
         } else {
           console.log('Real-time updates not available - using local storage only');
-        }
+        }p
 
       } catch (error) {
         console.error('Error loading live game:', error);
@@ -141,9 +141,19 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
               <h2 className="text-xl font-bold text-purple-100 mb-2">
                 Round {currentRound.roundNumber}
               </h2>
-              <p className="text-purple-300 text-sm">
+              <p className="text-purple-300 text-sm mb-2">
                 {currentRound.cardsInHand} cards in hand
               </p>
+              {/* Show current dealer */}
+              {(() => {
+                const dealer = currentRound.players.find(p => p.isDealer);
+                const dealerPlayer = game.players.find(p => p.id === dealer?.id);
+                return dealerPlayer ? (
+                  <p className="text-purple-400 text-sm">
+                    🃏 Dealer: {dealerPlayer.name}
+                  </p>
+                ) : null;
+              })()}
             </div>
           </div>
         )}
