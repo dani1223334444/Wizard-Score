@@ -8,6 +8,10 @@ export function generateSampleGame(): Game {
       id: '1',
       name: 'Alice',
       score: 0,
+      tricks: 0,
+      bid: 0,
+      isDealer: false,
+      penaltyMultiplier: 1,
       penalties: [
         { id: 'p1', type: 'wrong_play' as PenaltyType, roundNumber: 3, description: 'Wrong card played', points: -10, timestamp: new Date().toISOString() },
         { id: 'p2', type: 'wrong_deal' as PenaltyType, roundNumber: 7, description: 'Dealt wrong', points: -20, timestamp: new Date().toISOString() }
@@ -17,6 +21,10 @@ export function generateSampleGame(): Game {
       id: '2', 
       name: 'Bob',
       score: 0,
+      tricks: 0,
+      bid: 0,
+      isDealer: false,
+      penaltyMultiplier: 1,
       penalties: [
         { id: 'p3', type: 'wrong_bid' as PenaltyType, roundNumber: 5, description: 'Forgot to bid', points: -10, timestamp: new Date().toISOString() }
       ]
@@ -25,12 +33,20 @@ export function generateSampleGame(): Game {
       id: '3',
       name: 'Charlie',
       score: 0,
+      tricks: 0,
+      bid: 0,
+      isDealer: false,
+      penaltyMultiplier: 1,
       penalties: []
     },
     {
       id: '4',
       name: 'Diana',
       score: 0,
+      tricks: 0,
+      bid: 0,
+      isDealer: false,
+      penaltyMultiplier: 1,
       penalties: [
         { id: 'p4', type: 'other_mistake' as PenaltyType, roundNumber: 2, description: 'Played out of turn', points: -10, timestamp: new Date().toISOString() },
         { id: 'p5', type: 'wrong_play' as PenaltyType, roundNumber: 6, description: 'Wrong suit', points: -20, timestamp: new Date().toISOString() },
@@ -41,12 +57,20 @@ export function generateSampleGame(): Game {
       id: '5',
       name: 'Eve',
       score: 0,
+      tricks: 0,
+      bid: 0,
+      isDealer: false,
+      penaltyMultiplier: 1,
       penalties: []
     },
     {
       id: '6',
       name: 'Frank',
       score: 0,
+      tricks: 0,
+      bid: 0,
+      isDealer: false,
+      penaltyMultiplier: 1,
       penalties: [
         { id: 'p7', type: 'other_mistake' as PenaltyType, roundNumber: 4, description: 'Dropped cards', points: -10, timestamp: new Date().toISOString() }
       ]
