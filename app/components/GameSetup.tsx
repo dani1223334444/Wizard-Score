@@ -10,19 +10,45 @@ interface GameSetupProps {
 export default function GameSetup({ onStartGame }: GameSetupProps) {
   const [playerNames, setPlayerNames] = useState<string[]>(['', '', '']);
   const [totalRounds, setTotalRounds] = useState(10);
+  const [customRounds, setCustomRounds] = useState(false);
   const [edition, setEdition] = useState<'standard' | '25year'>('25year');
   const [noRoundNumberBid, setNoRoundNumberBid] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
+  // Wizard rules: 3 players = 20 rounds, 4 players = 15 rounds, 5 players = 12 rounds, 6 players = 10 rounds
+  const getDefaultRounds = (playerCount: number): number => {
+    switch (playerCount) {
+      case 3: return 20;
+      case 4: return 15;
+      case 5: return 12;
+      case 6: return 10;
+      default: return 10;
+    }
+  };
+
   const addPlayer = () => {
     if (playerNames.length < 6) {
-      setPlayerNames([...playerNames, '']);
+      const newPlayerNames = [...playerNames, ''];
+      setPlayerNames(newPlayerNames);
+      
+      // Auto-adjust rounds if not using custom
+      if (!customRounds) {
+        const newPlayerCount = newPlayerNames.length;
+        setTotalRounds(getDefaultRounds(newPlayerCount));
+      }
     }
   };
 
   const removePlayer = (index: number) => {
     if (playerNames.length > 2) {
-      setPlayerNames(playerNames.filter((_, i) => i !== index));
+      const newPlayerNames = playerNames.filter((_, i) => i !== index);
+      setPlayerNames(newPlayerNames);
+      
+      // Auto-adjust rounds if not using custom
+      if (!customRounds) {
+        const newPlayerCount = newPlayerNames.length;
+        setTotalRounds(getDefaultRounds(newPlayerCount));
+      }
     }
   };
 
@@ -142,17 +168,56 @@ export default function GameSetup({ onStartGame }: GameSetupProps) {
 
         <div>
           <label className="block text-sm font-medium mb-2 text-purple-200">Total Rounds</label>
-          <input
-            type="number"
-            value={totalRounds}
-            onChange={(e) => setTotalRounds(parseInt(e.target.value) || 10)}
-            min="1"
-            max="20"
-            className="w-full px-3 py-2 bg-gray-800 border border-purple-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
-          />
-          <p className="text-sm text-purple-300 mt-1">
-            Wizard uses 10 rounds by default, but you can customize this
-          </p>
+          
+          {/* Auto-calculated rounds display */}
+          {!customRounds && (
+            <div className="mb-3 p-3 bg-gray-800 border border-purple-600 rounded-md">
+              <div className="flex items-center justify-between">
+                <span className="text-purple-200">
+                  {playerNames.length} players = {totalRounds} rounds
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setCustomRounds(true)}
+                  className="text-purple-400 hover:text-purple-300 text-sm underline"
+                >
+                  Custom
+                </button>
+              </div>
+              <p className="text-xs text-purple-400 mt-1">
+                Official Wizard rules: 3p=20, 4p=15, 5p=12, 6p=10 rounds
+              </p>
+            </div>
+          )}
+
+          {/* Custom rounds input */}
+          {customRounds && (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={totalRounds}
+                  onChange={(e) => setTotalRounds(parseInt(e.target.value) || 10)}
+                  min="1"
+                  max="20"
+                  className="flex-1 px-3 py-2 bg-gray-800 border border-purple-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCustomRounds(false);
+                    setTotalRounds(getDefaultRounds(playerNames.length));
+                  }}
+                  className="px-3 py-2 bg-gray-700 border border-purple-600 text-purple-200 rounded-md hover:bg-gray-600 transition-colors text-sm"
+                >
+                  Auto
+                </button>
+              </div>
+              <p className="text-sm text-purple-300">
+                Custom number of rounds (1-20)
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Game Edition Selection */}
