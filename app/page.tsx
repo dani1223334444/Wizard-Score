@@ -69,17 +69,22 @@ export default function Home() {
             <header className="text-center mb-8">
               <h1 className="text-4xl font-bold mb-2 text-purple-200">🧙‍♂️ Wizard Score</h1>
               <p className="text-purple-300">The ultimate Wizard card game scoring app</p>
-              <div className="mt-2">
-                {isSupabaseAvailable() ? (
-                  <span className="inline-flex items-center gap-2 bg-green-900 border border-green-600 rounded-full px-3 py-1 text-sm text-green-200">
-                    ☁️ Cloud Sync Enabled
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-2 bg-yellow-900 border border-yellow-600 rounded-full px-3 py-1 text-sm text-yellow-200">
-                    💾 Local Storage Only
-                  </span>
-                )}
-              </div>
+                        <div className="mt-2">
+            {isSupabaseAvailable() ? (
+              <span className="inline-flex items-center gap-2 bg-green-900 border border-green-600 rounded-full px-3 py-1 text-sm text-green-200">
+                ☁️ Cloud Sync Enabled
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-2 bg-yellow-900 border border-yellow-600 rounded-full px-3 py-1 text-sm text-yellow-200">
+                💾 Local Storage Only
+              </span>
+            )}
+          </div>
+          {/* Debug Info */}
+          <div className="mt-4 text-xs text-gray-400">
+            <p>Supabase URL: {process.env.NEXT_PUBLIC_SUPABASE_URL ? '✅ Set' : '❌ Missing'}</p>
+            <p>Supabase Key: {process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? '✅ Set' : '❌ Missing'}</p>
+          </div>
             </header>
 
             <nav className="flex justify-center mb-8">
