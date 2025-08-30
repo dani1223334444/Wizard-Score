@@ -66,18 +66,18 @@ class SupabaseService implements DatabaseService {
     
     // Map database fields to Game interface
     const games = (data || []).map((row: Record<string, unknown>) => ({
-      id: row.id,
-      name: row.name,
-      players: row.players,
-      rounds: row.rounds,
-      currentRound: row.current_round,
-      totalRounds: row.total_rounds,
-      isComplete: row.is_complete,
-      rules: row.rules,
-      createdAt: row.created_at,
-      updatedAt: row.updated_at,
-      gameCode: row.game_code,
-      isLive: row.is_live
+      id: row.id as string,
+      name: row.name as string,
+      players: row.players as Game['players'],
+      rounds: row.rounds as Game['rounds'],
+      currentRound: row.current_round as number,
+      totalRounds: row.total_rounds as number,
+      isComplete: row.is_complete as boolean,
+      rules: row.rules as Game['rules'],
+      createdAt: row.created_at as string,
+      updatedAt: row.updated_at as string,
+      gameCode: row.game_code as string | undefined,
+      isLive: row.is_live as boolean | undefined
     }));
     
     console.log('Mapped games:', games.map(g => ({ id: g.id, name: g.name, gameCode: g.gameCode })));
@@ -97,18 +97,18 @@ class SupabaseService implements DatabaseService {
     
     // Map database fields to Game interface
     return {
-      id: data.id,
-      name: data.name,
-      players: data.players,
-      rounds: data.rounds,
-      currentRound: data.current_round,
-      totalRounds: data.total_rounds,
-      isComplete: data.is_complete,
-      rules: data.rules,
-      createdAt: data.created_at,
-      updatedAt: data.updated_at,
-      gameCode: data.game_code,
-      isLive: data.is_live
+      id: data.id as string,
+      name: data.name as string,
+      players: data.players as Game['players'],
+      rounds: data.rounds as Game['rounds'],
+      currentRound: data.current_round as number,
+      totalRounds: data.total_rounds as number,
+      isComplete: data.is_complete as boolean,
+      rules: data.rules as Game['rules'],
+      createdAt: data.created_at as string,
+      updatedAt: data.updated_at as string,
+      gameCode: data.game_code as string | undefined,
+      isLive: data.is_live as boolean | undefined
     };
   }
 
