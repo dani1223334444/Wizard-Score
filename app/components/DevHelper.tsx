@@ -1,6 +1,6 @@
 'use client';
 
-import { Game, Player, Round } from '../types/game';
+import { Game, Player, Round, PenaltyType } from '../types/game';
 
 export function generateSampleGame(): Game {
   const players: Player[] = [
@@ -9,8 +9,8 @@ export function generateSampleGame(): Game {
       name: 'Alice',
       score: 0,
       penalties: [
-        { id: 'p1', roundNumber: 3, description: 'Wrong card played', points: -10 },
-        { id: 'p2', roundNumber: 7, description: 'Dealt wrong', points: -20 }
+        { id: 'p1', type: 'wrong_play' as PenaltyType, roundNumber: 3, description: 'Wrong card played', points: -10, timestamp: new Date().toISOString() },
+        { id: 'p2', type: 'wrong_deal' as PenaltyType, roundNumber: 7, description: 'Dealt wrong', points: -20, timestamp: new Date().toISOString() }
       ]
     },
     {
@@ -18,7 +18,7 @@ export function generateSampleGame(): Game {
       name: 'Bob',
       score: 0,
       penalties: [
-        { id: 'p3', roundNumber: 5, description: 'Forgot to bid', points: -10 }
+        { id: 'p3', type: 'wrong_bid' as PenaltyType, roundNumber: 5, description: 'Forgot to bid', points: -10, timestamp: new Date().toISOString() }
       ]
     },
     {
@@ -32,9 +32,9 @@ export function generateSampleGame(): Game {
       name: 'Diana',
       score: 0,
       penalties: [
-        { id: 'p4', roundNumber: 2, description: 'Played out of turn', points: -10 },
-        { id: 'p5', roundNumber: 6, description: 'Wrong suit', points: -20 },
-        { id: 'p6', roundNumber: 9, description: 'Miscounted tricks', points: -40 }
+        { id: 'p4', type: 'other_mistake' as PenaltyType, roundNumber: 2, description: 'Played out of turn', points: -10, timestamp: new Date().toISOString() },
+        { id: 'p5', type: 'wrong_play' as PenaltyType, roundNumber: 6, description: 'Wrong suit', points: -20, timestamp: new Date().toISOString() },
+        { id: 'p6', type: 'other_mistake' as PenaltyType, roundNumber: 9, description: 'Miscounted tricks', points: -40, timestamp: new Date().toISOString() }
       ]
     },
     {
@@ -48,7 +48,7 @@ export function generateSampleGame(): Game {
       name: 'Frank',
       score: 0,
       penalties: [
-        { id: 'p7', roundNumber: 4, description: 'Dropped cards', points: -10 }
+        { id: 'p7', type: 'other_mistake' as PenaltyType, roundNumber: 4, description: 'Dropped cards', points: -10, timestamp: new Date().toISOString() }
       ]
     }
   ];
