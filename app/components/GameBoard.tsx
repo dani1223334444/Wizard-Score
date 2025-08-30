@@ -311,8 +311,8 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
                  <div className="flex items-center gap-2 min-w-0 flex-1">
                    <h3 className="font-semibold text-base text-purple-200 truncate">{player.name}</h3>
                    {player.isDealer && (
-                     <span className="bg-purple-600 text-purple-100 text-xs px-2 py-1 rounded-full flex-shrink-0">
-                       Dealer
+                     <span className="bg-purple-600 text-purple-100 text-xs w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0">
+                       D
                      </span>
                    )}
                  </div>
@@ -499,8 +499,8 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
                                     </div>
                                   )}
                                   {player.isDealer && (
-                                    <span className="inline-block bg-purple-600 text-purple-100 text-xs px-1 py-0.5 rounded-full mt-1">
-                                      Dealer
+                                    <span className="inline-block bg-purple-600 text-purple-100 text-xs w-4 h-4 rounded-full flex items-center justify-center mt-1">
+                                      D
                                     </span>
                                   )}
                                 </div>
