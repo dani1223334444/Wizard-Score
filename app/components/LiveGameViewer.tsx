@@ -58,7 +58,7 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
           });
         } else {
           console.log('Real-time updates not available - using local storage only');
-        }p
+        }
 
       } catch (error) {
         console.error('Error loading live game:', error);
