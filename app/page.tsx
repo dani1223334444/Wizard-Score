@@ -4,13 +4,17 @@ import { useState, useEffect } from 'react';
 import GameSetup from './components/GameSetup';
 import GameBoard from './components/GameBoard';
 import GameHistory from './components/GameHistory';
+import GameCodeInput from './components/GameCodeInput';
+import LiveGameViewer from './components/LiveGameViewer';
 import { Game } from './types/game';
 import { databaseService, isSupabaseAvailable } from './services/database';
 
 export default function Home() {
   const [currentGame, setCurrentGame] = useState<Game | null>(null);
   const [gameHistory, setGameHistory] = useState<Game[]>([]);
-  const [view, setView] = useState<'setup' | 'game' | 'history'>('setup');
+  const [view, setView] = useState<'setup' | 'game' | 'history' | 'join-game' | 'live-viewer'>('setup');
+  const [liveGameCode, setLiveGameCode] = useState<string>('');
+  const [liveGameError, setLiveGameError] = useState<string>('');
 
   // Load game history from database on component mount
   useEffect(() => {
@@ -61,6 +65,12 @@ export default function Home() {
   }, [gameHistory]);
 
   const startNewGame = (game: Game) => {
+    // Generate game code for live sync if Supabase is available
+    if (isSupabaseAvailable()) {
+      const gameCode = databaseService.createGameCode();
+      game.gameCode = gameCode;
+      game.isLive = true;
+    }
     setCurrentGame(game);
     setView('game');
   };
@@ -74,6 +84,21 @@ export default function Home() {
   const loadGame = (game: Game) => {
     setCurrentGame(game);
     setView('game');
+  };
+
+  const joinLiveGame = (gameCode: string) => {
+    setLiveGameCode(gameCode);
+    setView('live-viewer');
+  };
+
+  const handleLiveGameError = (error: string) => {
+    setLiveGameError(error);
+    setView('join-game');
+  };
+
+  const backToJoinGame = () => {
+    setLiveGameError('');
+    setView('join-game');
   };
 
   return (
@@ -125,6 +150,18 @@ export default function Home() {
                 >
                   Game History
                 </button>
+                {isSupabaseAvailable() && (
+                  <button
+                    onClick={() => setView('join-game')}
+                    className={`px-4 py-2 rounded-md transition-colors ${
+                      view === 'join-game' 
+                        ? 'bg-purple-600 text-white' 
+                        : 'text-purple-200 hover:text-white hover:bg-purple-600/20'
+                    }`}
+                  >
+                    Join Live Game
+                  </button>
+                )}
               </div>
             </nav>
           </>
@@ -155,6 +192,20 @@ export default function Home() {
                   console.error('Error deleting game:', error);
                 }
               }}
+            />
+          )}
+
+          {view === 'join-game' && (
+            <GameCodeInput 
+              onJoinGame={joinLiveGame}
+              onCancel={() => setView('setup')}
+            />
+          )}
+
+          {view === 'live-viewer' && (
+            <LiveGameViewer 
+              gameCode={liveGameCode}
+              onError={handleLiveGameError}
             />
           )}
         </main>

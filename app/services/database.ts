@@ -16,6 +16,8 @@ export interface DatabaseService {
   loadGame: (id: string) => Promise<Game | null>;
   updateGame: (game: Game) => Promise<void>;
   deleteGame: (id: string) => Promise<void>;
+  subscribeToGame: (gameId: string, callback: (game: Game) => void) => () => void;
+  createGameCode: () => string;
 }
 
 // Supabase implementation
@@ -96,6 +98,42 @@ class SupabaseService implements DatabaseService {
     
     if (error) throw error;
   }
+
+  subscribeToGame(gameId: string, callback: (game: Game) => void): () => void {
+    if (!supabase) throw new Error('Supabase not configured');
+    
+    const subscription = supabase
+      .channel(`game-${gameId}`)
+      .on('postgres_changes', 
+        { 
+          event: '*', 
+          schema: 'public', 
+          table: 'games',
+          filter: `id=eq.${gameId}`
+        }, 
+        (payload) => {
+          console.log('Real-time game update:', payload);
+          if (payload.new) {
+            callback(payload.new as Game);
+          }
+        }
+      )
+      .subscribe();
+    
+    return () => {
+      subscription.unsubscribe();
+    };
+  }
+
+  createGameCode(): string {
+    // Generate a 6-character game code
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  }
 }
 
 // Local storage fallback implementation
@@ -137,6 +175,21 @@ class LocalStorageService implements DatabaseService {
     const games = await this.loadGames();
     const filtered = games.filter(g => g.id !== id);
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(filtered));
+  }
+
+  subscribeToGame(gameId: string, callback: (game: Game) => void): () => void {
+    // Local storage doesn't support real-time, return empty unsubscribe function
+    return () => {};
+  }
+
+  createGameCode(): string {
+    // Generate a 6-character game code
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
   }
 }
 

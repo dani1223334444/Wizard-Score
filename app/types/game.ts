@@ -51,6 +51,8 @@ export interface Game {
   updatedAt: string;
   totalRounds: number;
   rules: GameRules;
+  gameCode?: string; // 6-character code for sharing
+  isLive?: boolean; // Whether this game supports live sync
 }
 
 export interface GameSetupData {

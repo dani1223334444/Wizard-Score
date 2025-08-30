@@ -56,3 +56,4 @@ GRANT ALL ON games TO anon;
 GRANT ALL ON games TO authenticated;
 GRANT ALL ON game_stats TO anon;
 GRANT ALL ON game_stats TO authenticated;
+

@@ -118,7 +118,9 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
     if (savedRound) {
       // Load the saved round data
       setCurrentRound(savedRound);
-      setBiddingPhase(false); // If round exists, we're in tricks phase
+      // Determine phase based on whether bids are set
+      const hasBids = savedRound.players.some(player => player.bid >= 0);
+      setBiddingPhase(!hasBids);
       setRoundComplete(savedRound.isComplete);
     } else {
       // Create a new round
@@ -269,6 +271,14 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
            <p className="text-sm text-purple-300 font-medium tracking-wide">
              {biddingPhase ? 'Bidding Phase' : 'Tricks Phase'}
            </p>
+           {/* Game Code for Live Sync */}
+           {game.gameCode && (
+             <div className="mt-3 p-2 bg-gray-800 border border-purple-600 rounded-lg">
+               <p className="text-purple-400 text-xs mb-1">Share this code for live viewing:</p>
+               <p className="text-purple-100 font-mono text-lg tracking-widest">{game.gameCode}</p>
+               <p className="text-purple-400 text-xs mt-1">👀 Others can watch live but can't make changes</p>
+             </div>
+           )}
          </div>
 
          {/* Bomb Toggle - Only in tricks phase */}
