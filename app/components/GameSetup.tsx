@@ -9,7 +9,7 @@ interface GameSetupProps {
 
 export default function GameSetup({ onStartGame }: GameSetupProps) {
   const [playerNames, setPlayerNames] = useState<string[]>(['', '', '']);
-  const [totalRounds, setTotalRounds] = useState(10);
+  const [totalRounds, setTotalRounds] = useState(20);
   const [customRounds, setCustomRounds] = useState(false);
   const [edition, setEdition] = useState<'standard' | '25year'>('25year');
   const [noRoundNumberBid, setNoRoundNumberBid] = useState(false);

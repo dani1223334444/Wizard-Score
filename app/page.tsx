@@ -129,10 +129,10 @@ export default function Home() {
             </header>
 
             <nav className="flex justify-center mb-8">
-              <div className="bg-gray-900 border border-purple-600 rounded-lg p-1">
+              <div className="bg-gray-900 border border-purple-600 rounded-lg p-1 flex flex-wrap gap-1">
                 <button
                   onClick={() => setView('setup')}
-                  className={`px-4 py-2 rounded-md transition-colors ${
+                  className={`px-3 py-2 rounded-md transition-colors text-sm whitespace-nowrap ${
                     view === 'setup' 
                       ? 'bg-purple-600 text-white' 
                       : 'text-purple-200 hover:text-white hover:bg-purple-600/20'
@@ -142,7 +142,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => setView('history')}
-                  className={`px-4 py-2 rounded-md transition-colors ${
+                  className={`px-3 py-2 rounded-md transition-colors text-sm whitespace-nowrap ${
                     view === 'history' 
                       ? 'bg-purple-600 text-white' 
                       : 'text-purple-200 hover:text-white hover:bg-purple-600/20'
@@ -153,7 +153,7 @@ export default function Home() {
                 {isSupabaseAvailable() && (
                   <button
                     onClick={() => setView('join-game')}
-                    className={`px-4 py-2 rounded-md transition-colors ${
+                    className={`px-3 py-2 rounded-md transition-colors text-sm whitespace-nowrap ${
                       view === 'join-game' 
                         ? 'bg-purple-600 text-white' 
                         : 'text-purple-200 hover:text-white hover:bg-purple-600/20'
