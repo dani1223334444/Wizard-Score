@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Game, Player, Round } from '../types/game';
-import { databaseService } from '../services/database';
+import { databaseService, isSupabaseAvailable } from '../services/database';
 
 interface LiveGameViewerProps {
   gameCode: string;
@@ -20,29 +20,47 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
 
     const loadAndSubscribeToGame = async () => {
       try {
+        console.log('Looking for game with code:', gameCode);
+        console.log('Supabase available:', isSupabaseAvailable());
+        
         // First, try to find the game by game code
         const games = await databaseService.loadGames();
+        console.log('Loaded games:', games.length);
+        console.log('Game codes found:', games.map(g => g.gameCode));
+        
         const foundGame = games.find(g => g.gameCode === gameCode);
+        console.log('Found game:', foundGame ? 'Yes' : 'No');
         
         if (!foundGame) {
-          onError('Game not found. Please check the game code.');
+          console.log('Game not found for code:', gameCode);
+          if (!isSupabaseAvailable()) {
+            onError('Live sync requires Supabase connection. Please check your setup.');
+          } else {
+            onError(`Game not found. Please check the game code "${gameCode}".`);
+          }
           setConnectionStatus('disconnected');
           return;
         }
 
+        console.log('Setting up game:', foundGame.name);
         setGame(foundGame);
         setConnectionStatus('connected');
         setLastUpdate(new Date());
 
-        // Set up real-time subscription
-        unsubscribe = databaseService.subscribeToGame(foundGame.id, (updatedGame) => {
-          setGame(updatedGame);
-          setLastUpdate(new Date());
-        });
+        // Set up real-time subscription (only works with Supabase)
+        if (isSupabaseAvailable()) {
+          unsubscribe = databaseService.subscribeToGame(foundGame.id, (updatedGame) => {
+            console.log('Real-time update received:', updatedGame.name);
+            setGame(updatedGame);
+            setLastUpdate(new Date());
+          });
+        } else {
+          console.log('Real-time updates not available - using local storage only');
+        }
 
       } catch (error) {
         console.error('Error loading live game:', error);
-        onError('Failed to connect to game. Please try again.');
+        onError(`Failed to connect to game: ${error.message}`);
         setConnectionStatus('disconnected');
       }
     };

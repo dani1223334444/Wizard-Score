@@ -37,6 +37,8 @@ class SupabaseService implements DatabaseService {
         total_rounds: game.totalRounds,
         is_complete: game.isComplete,
         rules: game.rules,
+        game_code: game.gameCode,
+        is_live: game.isLive,
         updated_at: new Date().toISOString()
       });
     
