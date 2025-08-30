@@ -6,13 +6,14 @@ import GameBoard from './components/GameBoard';
 import GameHistory from './components/GameHistory';
 import GameCodeInput from './components/GameCodeInput';
 import LiveGameViewer from './components/LiveGameViewer';
+import GameResults from './components/GameResults';
 import { Game } from './types/game';
 import { databaseService, isSupabaseAvailable } from './services/database';
 
 export default function Home() {
   const [currentGame, setCurrentGame] = useState<Game | null>(null);
   const [gameHistory, setGameHistory] = useState<Game[]>([]);
-  const [view, setView] = useState<'setup' | 'game' | 'history' | 'join-game' | 'live-viewer'>('setup');
+  const [view, setView] = useState<'setup' | 'game' | 'history' | 'join-game' | 'live-viewer' | 'results'>('setup');
   const [liveGameCode, setLiveGameCode] = useState<string>('');
   const [liveGameError, setLiveGameError] = useState<string>('');
 
@@ -77,8 +78,8 @@ export default function Home() {
 
   const endGame = (finalGame: Game) => {
     setGameHistory(prev => [finalGame, ...prev]);
-    setCurrentGame(null);
-    setView('setup');
+    setCurrentGame(finalGame);
+    setView('results');
   };
 
   const loadGame = (game: Game) => {
@@ -206,6 +207,17 @@ export default function Home() {
             <LiveGameViewer 
               gameCode={liveGameCode}
               onError={handleLiveGameError}
+            />
+          )}
+
+          {view === 'results' && currentGame && (
+            <GameResults 
+              game={currentGame}
+              onNewGame={() => {
+                setCurrentGame(null);
+                setView('setup');
+              }}
+              onViewHistory={() => setView('history')}
             />
           )}
         </main>
