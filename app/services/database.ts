@@ -63,7 +63,25 @@ class SupabaseService implements DatabaseService {
       throw error;
     }
     console.log('Games loaded successfully from Supabase:', data?.length || 0);
-    return data || [];
+    
+    // Map database fields to Game interface
+    const games = (data || []).map((row: any) => ({
+      id: row.id,
+      name: row.name,
+      players: row.players,
+      rounds: row.rounds,
+      currentRound: row.current_round,
+      totalRounds: row.total_rounds,
+      isComplete: row.is_complete,
+      rules: row.rules,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      gameCode: row.game_code,
+      isLive: row.is_live
+    }));
+    
+    console.log('Mapped games:', games.map(g => ({ id: g.id, name: g.name, gameCode: g.gameCode })));
+    return games;
   }
 
   async loadGame(id: string): Promise<Game | null> {
@@ -76,7 +94,22 @@ class SupabaseService implements DatabaseService {
       .single();
     
     if (error) throw error;
-    return data;
+    
+    // Map database fields to Game interface
+    return {
+      id: data.id,
+      name: data.name,
+      players: data.players,
+      rounds: data.rounds,
+      currentRound: data.current_round,
+      totalRounds: data.total_rounds,
+      isComplete: data.is_complete,
+      rules: data.rules,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      gameCode: data.game_code,
+      isLive: data.is_live
+    };
   }
 
   async updateGame(game: Game): Promise<void> {

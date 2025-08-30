@@ -26,10 +26,12 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
         // First, try to find the game by game code
         const games = await databaseService.loadGames();
         console.log('Loaded games:', games.length);
-        console.log('Game codes found:', games.map(g => g.gameCode));
+        console.log('All games:', games.map(g => ({ id: g.id, name: g.name, gameCode: g.gameCode })));
         
         const foundGame = games.find(g => g.gameCode === gameCode);
         console.log('Found game:', foundGame ? 'Yes' : 'No');
+        console.log('Looking for code:', gameCode);
+        console.log('Available codes:', games.map(g => g.gameCode).filter(Boolean));
         
         if (!foundGame) {
           console.log('Game not found for code:', gameCode);
