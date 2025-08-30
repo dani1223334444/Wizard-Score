@@ -1,6 +1,6 @@
 'use client';
 
-import { Game, Player, Round, Penalty } from '../types/game';
+import { Game, Player, Round } from '../types/game';
 
 export function generateSampleGame(): Game {
   const players: Player[] = [
@@ -55,7 +55,7 @@ export function generateSampleGame(): Game {
 
   // Generate 10 rounds of sample data
   const rounds: Round[] = [];
-  let runningScores = [0, 0, 0, 0, 0, 0]; // Track running scores
+  const runningScores = [0, 0, 0, 0, 0, 0]; // Track running scores
 
   for (let roundNum = 1; roundNum <= 10; roundNum++) {
     const cardsInHand = roundNum <= 5 ? roundNum : 11 - roundNum;
@@ -63,7 +63,7 @@ export function generateSampleGame(): Game {
     
     // Generate realistic bids and tricks
     const roundPlayers = players.map((player, index) => {
-      let bid = Math.floor(Math.random() * (cardsInHand + 1));
+      const bid = Math.floor(Math.random() * (cardsInHand + 1));
       let tricks = bid;
       
       // Add some variation - sometimes miss, sometimes exceed
