@@ -145,7 +145,9 @@ export function generateSampleGame(): Game {
     isComplete: true,
     rules: {
       edition: '25year' as const,
-      noRoundNumberBidding: true
+      customRules: {
+        noRoundNumberBid: true
+      }
     },
     createdAt: new Date().toISOString(),
     gameCode: 'SAMPLE',
