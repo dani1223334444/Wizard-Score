@@ -124,9 +124,7 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
       setRoundComplete(savedRound.isComplete);
     } else {
       // Create a new round
-      const cardsInHand = game.currentRound <= game.totalRounds / 2 
-        ? game.currentRound 
-        : game.totalRounds - game.currentRound + 2;
+      const cardsInHand = game.currentRound;
 
       const newRound: Round = {
         roundNumber: game.currentRound,
