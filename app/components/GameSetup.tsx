@@ -197,7 +197,12 @@ export default function GameSetup({ onStartGame }: GameSetupProps) {
                 <input
                   type="number"
                   value={totalRounds}
-                  onChange={(e) => setTotalRounds(parseInt(e.target.value) || 10)}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value);
+                    if (!isNaN(value) && value >= 1 && value <= 20) {
+                      setTotalRounds(value);
+                    }
+                  }}
                   min="1"
                   max="20"
                   className="flex-1 px-3 py-2 bg-gray-800 border border-purple-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
