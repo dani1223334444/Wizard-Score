@@ -97,41 +97,15 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
     );
   }
 
-  const getConnectionStatusColor = () => {
-    switch (connectionStatus) {
-      case 'connected': return 'text-green-400';
-      case 'connecting': return 'text-yellow-400';
-      case 'disconnected': return 'text-red-400';
-    }
-  };
 
-  const getConnectionStatusText = () => {
-    switch (connectionStatus) {
-      case 'connected': return '🟢 Live';
-      case 'connecting': return '🟡 Connecting...';
-      case 'disconnected': return '🔴 Disconnected';
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-950 p-4">
       {/* Header */}
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-purple-100 mb-1">{game.name}</h1>
-            <p className="text-purple-300 text-sm">Game Code: {gameCode}</p>
-          </div>
-          <div className="text-right">
-            <div className={`text-sm font-medium ${getConnectionStatusColor()}`}>
-              {getConnectionStatusText()}
-            </div>
-            {lastUpdate && (
-              <p className="text-purple-400 text-xs mt-1">
-                Last update: {lastUpdate.toLocaleTimeString()}
-              </p>
-            )}
-          </div>
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-bold text-purple-100 mb-1">{game.name}</h1>
+          <p className="text-purple-300 text-sm">Game Code: {gameCode}</p>
         </div>
 
         {/* Current Round Info */}
