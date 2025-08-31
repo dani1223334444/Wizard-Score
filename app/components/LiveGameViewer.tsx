@@ -109,28 +109,36 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
         </div>
 
         {/* Current Round Info */}
-        {currentRound && (
-          <div className="bg-gray-800 border border-purple-700 rounded-lg p-4 mb-6">
-            <div className="text-center">
-              <h2 className="text-xl font-bold text-purple-100 mb-2">
-                Round {currentRound.roundNumber}
-              </h2>
-              <p className="text-purple-300 text-sm mb-2">
-                {currentRound.cardsInHand} cards in hand
-              </p>
-              {/* Show current dealer */}
-              {(() => {
+        <div className="bg-gray-800 border border-purple-700 rounded-lg p-4 mb-6">
+          <div className="text-center">
+            <h2 className="text-xl font-bold text-purple-100 mb-2">
+              Round {game.currentRound}
+            </h2>
+            <p className="text-purple-300 text-sm mb-2">
+              {game.currentRound} cards in hand
+            </p>
+            {/* Show current dealer */}
+            {(() => {
+              // Find dealer from current round data or calculate from game state
+              let dealerPlayer = null;
+              
+              if (currentRound) {
                 const dealer = currentRound.players.find(p => p.isDealer);
-                const dealerPlayer = game.players.find(p => p.id === dealer?.id);
-                return dealerPlayer ? (
-                  <p className="text-purple-400 text-sm">
-                    🃏 Dealer: {dealerPlayer.name}
-                  </p>
-                ) : null;
-              })()}
-            </div>
+                dealerPlayer = game.players.find(p => p.id === dealer?.id);
+              } else {
+                // If no current round data, calculate dealer based on current round number
+                const dealerIndex = (game.currentRound - 1) % game.players.length;
+                dealerPlayer = game.players[dealerIndex];
+              }
+              
+              return dealerPlayer ? (
+                <p className="text-purple-400 text-sm">
+                  🃏 Dealer: {dealerPlayer.name}
+                </p>
+              ) : null;
+            })()}
           </div>
-        )}
+        </div>
 
         {/* Players */}
         <div className="space-y-3">
@@ -148,11 +156,24 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
                     </div>
                     <div>
                       <h3 className="font-semibold text-purple-200">{player.name}</h3>
-                      {currentRoundPlayer?.isDealer && (
-                        <span className="bg-purple-600 text-purple-100 text-xs px-2 py-1 rounded-full">
-                          Dealer
-                        </span>
-                      )}
+                      {(() => {
+                        // Check if this player is the dealer
+                        let isDealer = false;
+                        
+                        if (currentRoundPlayer?.isDealer) {
+                          isDealer = true;
+                        } else if (!currentRound) {
+                          // If no current round data, calculate dealer based on current round number
+                          const dealerIndex = (game.currentRound - 1) % game.players.length;
+                          isDealer = index === dealerIndex;
+                        }
+                        
+                        return isDealer ? (
+                          <span className="bg-purple-600 text-purple-100 text-xs px-2 py-1 rounded-full">
+                            Dealer
+                          </span>
+                        ) : null;
+                      })()}
                     </div>
                   </div>
 
