@@ -25,43 +25,4 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Fix Safari mobile green background when scrolling */
-html {
-  background: #030712 !important; /* Force dark gray */
-  height: 100%;
-}
 
-/* Prevent Safari mobile from showing green background on overscroll */
-body {
-  overscroll-behavior: none;
-  overscroll-behavior-y: none;
-  -webkit-overflow-scrolling: touch;
-  background: #030712 !important; /* Force dark gray */
-  height: 100%;
-  min-height: 100vh;
-}
-
-/* Force dark background on all elements */
-html, body, #__next, main, div {
-  background-color: #030712 !important; /* Force dark gray */
-}
-
-/* Safari mobile specific fixes */
-@supports (-webkit-touch-callout: none) {
-  html, body {
-    background: #030712 !important;
-    min-height: 100vh;
-  }
-  
-  /* Target the overscroll area specifically */
-  body::before {
-    content: '';
-    position: fixed;
-    top: -100vh;
-    left: 0;
-    right: 0;
-    bottom: -100vh;
-    background: #030712;
-    z-index: -1;
-  }
-}
