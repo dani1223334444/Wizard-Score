@@ -126,7 +126,7 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
       // Create a new round
       const cardsInHand = game.currentRound <= game.totalRounds / 2 
         ? game.currentRound 
-        : game.totalRounds - game.currentRound + 1;
+        : game.totalRounds - game.currentRound + 2;
 
       const newRound: Round = {
         roundNumber: game.currentRound,
@@ -253,16 +253,7 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
       // When bomb is played (25 Year Edition only), one trick is voided
       const expectedTotal = (game.rules?.edition === '25year' && bombPlayed) ? currentRound.cardsInHand - 1 : currentRound.cardsInHand;
       
-      // Debug logging
-      console.log('Round completion check:', {
-        roundNumber: currentRound.roundNumber,
-        totalTricksEntered,
-        expectedTotal,
-        cardsInHand: currentRound.cardsInHand,
-        bombPlayed,
-        edition: game.rules?.edition,
-        canComplete: totalTricksEntered === expectedTotal
-      });
+
       
       // Check if total tricks equals expected total
       return totalTricksEntered === expectedTotal;
