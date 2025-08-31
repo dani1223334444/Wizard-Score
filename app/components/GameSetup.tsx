@@ -11,6 +11,7 @@ export default function GameSetup({ onStartGame }: GameSetupProps) {
   const [playerNames, setPlayerNames] = useState<string[]>(['', '', '']);
   const [totalRounds, setTotalRounds] = useState(20);
   const [customRounds, setCustomRounds] = useState(false);
+  const [roundInputValue, setRoundInputValue] = useState('20');
   const [edition, setEdition] = useState<'standard' | '25year'>('25year');
   const [noRoundNumberBid, setNoRoundNumberBid] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
@@ -178,7 +179,10 @@ export default function GameSetup({ onStartGame }: GameSetupProps) {
                 </span>
                 <button
                   type="button"
-                  onClick={() => setCustomRounds(true)}
+                  onClick={() => {
+                    setCustomRounds(true);
+                    setRoundInputValue(totalRounds.toString());
+                  }}
                   className="text-purple-400 hover:text-purple-300 text-sm underline"
                 >
                   Custom
@@ -196,11 +200,21 @@ export default function GameSetup({ onStartGame }: GameSetupProps) {
               <div className="flex items-center gap-2">
                 <input
                   type="number"
-                  value={totalRounds}
+                  value={roundInputValue}
                   onChange={(e) => {
-                    const value = parseInt(e.target.value);
-                    if (!isNaN(value) && value >= 1 && value <= 20) {
-                      setTotalRounds(value);
+                    const value = e.target.value;
+                    setRoundInputValue(value);
+                    
+                    const numValue = parseInt(value);
+                    if (!isNaN(numValue) && numValue >= 1 && numValue <= 20) {
+                      setTotalRounds(numValue);
+                    }
+                  }}
+                  onBlur={() => {
+                    // If input is empty or invalid, reset to current totalRounds
+                    const numValue = parseInt(roundInputValue);
+                    if (isNaN(numValue) || numValue < 1 || numValue > 20) {
+                      setRoundInputValue(totalRounds.toString());
                     }
                   }}
                   min="1"
@@ -211,7 +225,9 @@ export default function GameSetup({ onStartGame }: GameSetupProps) {
                   type="button"
                   onClick={() => {
                     setCustomRounds(false);
-                    setTotalRounds(getDefaultRounds(playerNames.length));
+                    const newRounds = getDefaultRounds(playerNames.length);
+                    setTotalRounds(newRounds);
+                    setRoundInputValue(newRounds.toString());
                   }}
                   className="px-3 py-2 bg-gray-700 border border-purple-600 text-purple-200 rounded-md hover:bg-gray-600 transition-colors text-sm"
                 >
