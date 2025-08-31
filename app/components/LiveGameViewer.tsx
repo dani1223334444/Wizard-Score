@@ -149,6 +149,18 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
             const currentRoundPenaltyPoints = currentRoundPenalties.reduce((sum, penalty) => sum + penalty.points, 0);
             const totalScore = player.score + currentRoundPenaltyPoints;
             
+            // Debug logging
+            if (player.penalties.length > 0) {
+              console.log(`Player ${player.name}:`, {
+                baseScore: player.score,
+                currentRound: game.currentRound,
+                allPenalties: player.penalties,
+                currentRoundPenalties,
+                currentRoundPenaltyPoints,
+                totalScore
+              });
+            }
+            
             return (
               <div key={player.id} className="bg-gray-800 border border-purple-700 rounded-lg p-4">
                 <div className="flex items-center justify-between">
