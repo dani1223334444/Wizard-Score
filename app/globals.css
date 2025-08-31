@@ -24,3 +24,13 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Fix Safari mobile green background when scrolling */
+html {
+  background: var(--background);
+}
+
+/* Prevent Safari mobile from showing green background on overscroll */
+body {
+  overscroll-behavior: none;
+}
