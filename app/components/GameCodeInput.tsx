@@ -26,15 +26,15 @@ export default function GameCodeInput({ onJoinGame, onCancel }: GameCodeInputPro
 
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-      <div className="bg-gray-800 border border-purple-700 rounded-lg p-8 max-w-md w-full">
-        <div className="text-center mb-6">
+      <div className="bg-gray-800 border border-purple-700 rounded-lg p-6 max-w-md w-full">
+        <div className="text-center mb-4">
           <h1 className="text-2xl font-bold text-purple-100 mb-2">Join Live Game</h1>
           <p className="text-purple-300 text-sm">
             Enter the 6-character game code to watch live updates
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="gameCode" className="block text-sm font-medium text-purple-200 mb-2">
               Game Code
@@ -73,7 +73,7 @@ export default function GameCodeInput({ onJoinGame, onCancel }: GameCodeInputPro
           </div>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-4 text-center">
           <p className="text-purple-400 text-sm">
             👀 You&apos;ll be able to watch the game live but can&apos;t make changes
           </p>
