@@ -62,11 +62,13 @@ export default function GameSetup({ onStartGame }: GameSetupProps) {
   const validateSetup = (): string[] => {
     const newErrors: string[] = [];
     
-    if (playerNames.filter(name => name.trim()).length < 2) {
+    const validPlayerNames = playerNames.filter(name => name.trim());
+    
+    if (validPlayerNames.length < 2) {
       newErrors.push('You need at least 2 players');
     }
     
-    if (playerNames.some(name => name.trim() === '')) {
+    if (validPlayerNames.length !== playerNames.length) {
       newErrors.push('All player names must be filled');
     }
     

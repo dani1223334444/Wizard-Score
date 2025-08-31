@@ -221,7 +221,7 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
     };
 
     // Check if game is complete
-    if (game.currentRound >= game.totalRounds) {
+    if (game.currentRound > game.totalRounds) {
       updatedGame.isComplete = true;
       onEndGame(updatedGame);
     } else {
