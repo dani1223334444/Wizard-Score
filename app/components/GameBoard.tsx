@@ -369,7 +369,7 @@ export default function GameBoard({ game, onGameUpdate, onEndGame }: GameBoardPr
                  {/* Right: Score + Penalty */}
                  <div className="flex items-center gap-2 flex-shrink-0 min-w-[80px] justify-end">
                    <span className="text-base font-bold text-purple-100 min-w-[30px] text-right">
-                     {player.score + player.penalties.reduce((sum, penalty) => sum + penalty.points, 0)}
+                     {player.score}
                    </span>
                    <button
                      onClick={() => openPenaltyModal(player.id, player.name)}

@@ -144,7 +144,7 @@ export default function LiveGameViewer({ gameCode, onError }: LiveGameViewerProp
         <div className="space-y-3">
           {game.players.map((player, index) => {
             const currentRoundPlayer = currentRound?.players.find(p => p.id === player.id);
-            const totalScore = player.score + player.penalties.reduce((sum, penalty) => sum + penalty.points, 0);
+            const totalScore = player.score;
             
             return (
               <div key={player.id} className="bg-gray-800 border border-purple-700 rounded-lg p-4">
