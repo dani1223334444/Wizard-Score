@@ -27,10 +27,25 @@ body {
 
 /* Fix Safari mobile green background when scrolling */
 html {
-  background: var(--background);
+  background: var(--background) !important;
+  height: 100%;
 }
 
 /* Prevent Safari mobile from showing green background on overscroll */
 body {
   overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+  background: var(--background) !important;
+  height: 100%;
+}
+
+/* Additional Safari mobile fixes */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Force dark background on all elements */
+html, body, #__next, main, div {
+  background-color: var(--background) !important;
 }
